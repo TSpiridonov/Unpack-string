@@ -5,7 +5,9 @@ public class Main {
         String s3 = "3[]@[xfa]x4yz]x";
         String s4 = "3[[asxd4[sda]]x";
 
+        System.out.println(Unwrapper.getResult(s1));
+        System.out.println(Unwrapper.getResult(s2));
+        System.out.println(Unwrapper.getResult(s3));
         System.out.println(Unwrapper.getResult(s4));
-    }
     }
 }
