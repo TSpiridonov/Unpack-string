@@ -8,23 +8,19 @@ public class Main {
 
         List<Integer> repeats = new ArrayList<>();
 
-        Pattern num = Pattern.compile("([1-9])\\[");
+        Pattern num = Pattern.compile("(\\d+)\\[");
         Matcher m1 = num.matcher(s1);
 
         while (m1.find()){
             repeats.add(Integer.parseInt(m1.group(1)));
         }
-        System.out.println(repeats);
 
         List<String> rows = new ArrayList<String>();
-        Pattern p = Pattern.compile("\\[(\\w*)\\]");
+        Pattern p = Pattern.compile("\\[([a-z]+)\\]");
         Matcher m = p.matcher(s1);
         while (m.find()) {
             rows.add(m.group(1));
         }
-
-        String[] array = rows.toArray(new String[rows.size()]);
-        System.out.println(Arrays.toString(array));
 
         List<String> single = new ArrayList<>();
         Pattern sing = Pattern.compile("\\]([a-z]+)");
@@ -33,7 +29,6 @@ public class Main {
             single.add(m2.group(1));
         }
 
-        System.out.println(single);
 
 
         System.out.println(result(repeats,rows,single));
@@ -51,8 +46,8 @@ public class Main {
         }
 
         if(single.size() > 0){
-            for (int i = 0; i < single.size(); i++) {
-                sb.append(single.get(i));
+            for (String s : single) {
+                sb.append(s);
             }
         }
 
