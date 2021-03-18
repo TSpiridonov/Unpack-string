@@ -1,9 +1,31 @@
 import java.util.*;
 import java.util.regex.*;
 
-public class Unwrapper {
+public class Unpacker {
 
-    public static String getResult(String s) {
+    /**
+     * This method returns the result of unpacking the string.
+     * During the method, depending on which string was passed in the parameters, the following dynamic arrays are generated:
+     * If passed string contains inner repeats:
+     * 1) single - containing strings that do not need to be repeated;
+     * 2) innerInt - contains the required number of repetitions for the inner string;
+     * 3) innerStr - contains inner strings;
+     * 4) outerInt - contains the required number of repetitions for the outer string;
+     * 5) outerStr - contains outer strings;
+     * If passed string do not contains inner repeats:
+     * 1) single - containing strings that do not need to be repeated;
+     * 2) numberOfRepeat - contains the required number of repetitions for the string;
+     * 3) repeatedStrings - contains strings which need to be repeated;
+     * After filling the arrays, the convertString method is called:
+     * 1) for string contains inner repeats
+     * @see Unpacker#convertString(List, List, List, List, List)
+     * 2) for string which not contains inner repeats:
+     * @see Unpacker#convertString(List, List, List)
+     *
+     * @param s the string to be unpacked
+     * @return unpacked string
+     */
+    public static String unpackString(String s) {
 
         if (!isValid(s)) {
             return "String " + s + " is not valid. Please enter a valid string.";
@@ -28,7 +50,7 @@ public class Unwrapper {
                 single.add(matcher.group(5));
             }
 
-            return result(innerInt, innerStr, outerInt, outerStr, single);
+            return convertString(innerInt, innerStr, outerInt, outerStr, single);
         }
 
         List<Integer> numberOfRepeat = new ArrayList<>();
@@ -47,10 +69,15 @@ public class Unwrapper {
             single.add(sMatcher.group(1));
         }
 
-        return result(numberOfRepeat, repeatedStrings, single);
+        return convertString(numberOfRepeat, repeatedStrings, single);
 
     }
 
+    /**
+     * This method checks if the passed string contains nested repetitions
+     * @param s checked string
+     * @return true - if passed string contains inner repeats
+     */
     public static boolean isNested(String s) {
         Pattern pattern = Pattern.compile("[0-9]+\\[[0-9]+\\[[a-z]+");
         Matcher matcher = pattern.matcher(s);
@@ -58,6 +85,11 @@ public class Unwrapper {
         return matcher.find();
     }
 
+    /**
+     * This method checks if the passed string are valid
+     * @param s checked string
+     * @return true - if passed string are valid.
+     */
     public static boolean isValid(String s) {
 
         if (s == null || s.isEmpty()) {
@@ -85,7 +117,14 @@ public class Unwrapper {
         return matcher.find();
     }
 
-    public static String result(List<Integer> numberOfRepeat, List<String> repeatedStrings, List<String> single) {
+    /**
+     * Method for repeating strings the required number of times
+     * @param numberOfRepeat - number of repetitions
+     * @param repeatedStrings - repeatable stringы
+     * @param single - strings that do not need to be repeated
+     * @return string containing strings repeated the required number of times
+     */
+    public static String convertString(List<Integer> numberOfRepeat, List<String> repeatedStrings, List<String> single) {
 
         StringBuilder sb = new StringBuilder();
 
@@ -101,8 +140,17 @@ public class Unwrapper {
         return sb.toString();
     }
 
-    public static String result(List<Integer> innerInt, List<String> innerStr,
-                                List<Integer> outerInt, List<String> outerStr, List<String> single) {
+    /**
+     * Method for repeating strings the required number of times
+     * @param innerInt - number of repetition inner string
+     * @param innerStr - inner string
+     * @param outerInt - number of repetition outer string
+     * @param outerStr - outer string
+     * @param single - strings that do not need to be repeated
+     * @return string containing strings repeated the required number of times
+     */
+    public static String convertString(List<Integer> innerInt, List<String> innerStr,
+                                       List<Integer> outerInt, List<String> outerStr, List<String> single) {
 
         StringBuilder sb = new StringBuilder();
 
